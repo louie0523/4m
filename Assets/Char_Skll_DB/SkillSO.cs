@@ -56,13 +56,13 @@ public class SkillSO : ScriptableObject
 
     public enum SkillType
     {
-        PassiveGeneral,  // 일반 패시브
+        PassiveNomal,  // 일반 패시브
         PassiveUnique,   // 고유 패시브
-        ActiveGeneral,   // 일반 기술
+        ActiveNomal,    // 평타
+        ActiveSkill,   // 일반 기술
         ActiveUnique,    // 고유 기술
         UltimateSkill,   // 궁극 기술
-        PhysicalAttack,  // 물리 공격 스킬
-        MagicalAttack    // 마법 공격 스킬
+
     }
 
     public enum TargetType
@@ -73,11 +73,11 @@ public class SkillSO : ScriptableObject
 
     public enum EffectType
     {
-        TrueAttack,       // 공격형
+        PhysicalAttack,   // 물리 공격형
+        MagicalAttack,     // 마법 공격형
         Buff,             // 버프형
         Debuff,           // 디버프형
         Heal,             // 회복형
-        PhysicalAttack,   // 물리 공격형
-        MagicalAttack     // 마법 공격형
+        TrueAttack         // 고정 피해
     }
 }

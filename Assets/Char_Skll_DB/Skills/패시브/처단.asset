@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cf2a76bc9fc42946926926d5e05690c, type: 3}
+  m_Name: "\uCC98\uB2E8"
+  m_EditorClassIdentifier: 
+  skillName: "\uCC98\uB2E8"
+  description: "\uC790\uC2E0 \uD639\uC740 \uD300\uC6D0\uC5D0\uAC8C \uD53C\uD574\uB97C
+    \uC785\uD78C \uC801\uC740 \uB2E4\uC74C\uD134\uC5D0 \uC790\uC2E0\uC5D0\uAC8C 30%\uC758
+    \uCD94\uAC00\uD53C\uD574\uB97C \uC785\uC2B5\uB2C8\uB2E4."
+  mpCost: 0
+  cooldown: 0
+  skillType: 0
+  baseEffectValue: 0.3
+  targetType: 0
+  effectType: 2
+  effectPrefab: {fileID: 0}
+  effectMultiplier:
+    attackMultiplier: 0
+    abilityPowerMultiplier: 0
+    healthMultiplier: 0
+    defenseMultiplier: 0
+    resistanceMultiplier: 0
+    perceptionMultiplier: 0
+    manaMultiplier: 0
+    manaRegenMultiplier: 0

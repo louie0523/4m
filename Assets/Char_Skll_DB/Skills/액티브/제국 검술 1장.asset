@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: "\uC81C\uAD6D \uAC80\uC220 1\uC7A5"
   m_EditorClassIdentifier: 
   skillName: "\uC81C\uAD6D \uAC80\uC220 1\uC7A5"
-  description: "\uC81C\uAD6D\uC758 \uAE30\uCD08 \uAC80\uC220, 2\uBC88\uC9F8 \uC0AC\uC6A9\uB9C8\uB2E4
-    \uC704\uB825\uC774 30% \uC99D\uAC00\uD55C\uB2E4."
+  description: "\uC81C\uAD6D\uC758 \uAE30\uCD08 \uAC80\uC220, \uB450\uBC88\uC9F8
+    \uAC80\uACA9\uC740 \uC704\uB825\uC774 35% \uC99D\uAC00\uD55C\uB2E4."
   mpCost: 0
   cooldown: 0
   skillType: 2

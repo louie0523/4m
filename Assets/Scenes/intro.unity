@@ -208,8 +208,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45
-  m_fontSizeBase: 45
+  m_fontSize: 32
+  m_fontSizeBase: 32
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -290,7 +290,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -25.171265, y: 2.1521606}
+  m_Offset: {x: -15.413696, y: 1.578186}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -301,7 +301,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 223.05981, y: 37.89441}
+  m_Size: {x: 251.75854, y: 48.225952}
   m_EdgeRadius: 0
 --- !u!114 &371141421
 MonoBehaviour:
@@ -769,16 +769,17 @@ MonoBehaviour:
   - {fileID: 1345475718}
   - {fileID: 1700766598}
   dialogues:
-  - "\uC11C\uAE30 6xx\uB144 9\uC6D4 1\uC77C.."
+  - "\uC11C\uAE30 7xx\uB144 x\uC6D4 x\uC77C..."
   - "\uC138\uC0C1\uC5D0\uB294 \uBAA8\uB4E0 \uC18C\uC6D0\uC744 \uC774\uB8E8\uC5B4
     \uC900\uB2E4\uACE0 \uC804\uD574\uC9C0\uB294 \uC804\uC124\uC758 \uBC14\uBCA8\uD0D1\uC774
     \uC0DD\uACA8\uB098\uAC8C\uB418\uC5C8\uB2E4."
   - "\uADF8\uB9AC\uD558\uC5EC \uC0AC\uB78C\uB4E4\uC740 \uC11C\uB85C\uAC00 \uC55E\uB2E4\uD22C\uC5B4
-    \uD0D1\uC758 \uAF2D\uB300\uAE30\uAE4C\uC9C0 \uC62C\uB77C \uC18C\uC6D0\uC744 \uC7C1\uCDE8\uD558\uB824\uB418\uC5C8\uB2E4."
-  - ......
-  - "\uACFC\uC5F0 \uB2F9\uC2E0\uC774 \uC18C\uC6D0\uC744 \uC7C1\uCDE8\uD560 \uC218
-    \uC788\uC744\uAE4C?"
-  - "\uC9C1\uC811 \uB3C4\uC804\uD574\uBCF4\uB77C"
+    \uD0D1\uC758 \uAF2D\uB300\uAE30\uAE4C\uC9C0 \uC62C\uB77C \uC18C\uC6D0\uC744 \uC7C1\uCDE8\uD558\uC600\uB2E4."
+  - ..........
+  - "\uC0AC\uB78C\uB4E4\uC740 \uB9D0\uD588\uB2E4. \uACFC\uC5F0 \uB204\uAC00 \uD0D1\uC758
+    \uAF2D\uB300\uAE30\uC5D0 \uC62C\uB77C \uC18C\uC6D0\uC744 \uC774\uB8F0 \uAC83\uC778\uAC00."
+  - "\uC601\uC6C5\uB4E4\uC740 \uC800\uB9C8\uB2E4\uC758 \uBAA9\uC801\uC744 \uC704\uD574
+    \uD0D1\uC5D0 \uC785\uC131\uD558\uAE30 \uC2DC\uC791\uD558\uC600\uB2E4."
   imageIndices: 000000000000000001000000010000000100000001000000
   dialogueText: {fileID: 1968931288}
   nextSceneName: Start

@@ -144,11 +144,10 @@ public class CoreVisualNovelManager : MonoBehaviour
     {
         foreach (var character in characterMap)
         {
-            bool isActive = character.Key == activeCharacter; // 현재 대사를 진행하는 캐릭터만 활성 상태로 설정
-            character.Value.SetActive(isActive);  // 알파값만 조절하여 캐릭터 밝기 변경
+            bool isActive = character.Key == activeCharacter; // 현재 대사를 진행하는 캐릭터만 활성화
+            character.Value.SetActive(isActive);  // 대사 중인 캐릭터는 밝은 색상, 아닌 캐릭터는 어두운 색상
         }
     }
-
 
     public void ShowChoices(string[] choices, System.Action<int> onChoiceSelected)
     {
@@ -245,12 +244,16 @@ public class CharacterUI
 
     public void SetActive(bool isActive)
     {
-        // 밝은 색상 (활성화 상태) 및 어두운 색상 (비활성화 상태)
-        Color activeColor = new Color(1f, 1f, 1f, 1f);  // 불투명하고 밝은 색상
-        Color inactiveColor = new Color(0.8f, 0.8f, 0.8f, 0.9f);  // 반투명하고 어두운 색상
+        Color activeColor = new Color(225f / 255f, 225f / 255f, 225f / 255f, 1f);  // 밝은 색상 (활성화 상태)
+        Color inactiveColor = new Color(127f / 255f, 127f / 255f, 127f / 255f, 0.5f);  // 어두운 색상 (비활성화 상태)
 
-        // 알파값만 조절하여 캐릭터 밝기 표현
         characterImage.color = isActive ? activeColor : inactiveColor;
+        characterImage.gameObject.SetActive(isActive);  // 활성화/비활성화 처리
+
+        // 캐릭터가 활성화된 상태일 때만 위치 설정
+        if (isActive)
+        {
+            characterImage.rectTransform.anchoredPosition = position; // 활성화된 경우 위치 설정
+        }
     }
 }
-

@@ -18,7 +18,7 @@ public class ExampleFlow : MonoBehaviour
     {
         // 첫 번째 대화 (주인공 등장)
         vnManager.Show("빌헬름 경", new Vector3(-300, 0, 0)); // 빌헬름 경을 특정 위치에 등장
-        vnManager.StartDialogue("빌헬름 경", "이제 깊은 숲으로 들어가야 해.", 1, false);  // 배경 1번, 걷기 효과 없음
+        vnManager.StartDialogue("빌헬름 경", "이제 깊은 숲으로 들어가야 해.", 1);  // 배경 1번
         yield return new WaitUntil(() => Input.GetMouseButtonDown(0));  // 마우스 좌클릭 기다림
 
         // 빌헬름 경 이동
@@ -27,7 +27,7 @@ public class ExampleFlow : MonoBehaviour
 
         // 두 번째 대화 (조력자 등장)
         vnManager.Show("조력자", new Vector3(300, 0, 0)); // 조력자를 특정 위치에 등장
-        vnManager.StartDialogue("빌헬름 경", "여기서부터 조심해야 해.", 2, true);  // 배경 2번, 걷기 효과 있음
+        vnManager.StartDialogue("빌헬름 경", "여기서부터 조심해야 해.", 2);  // 배경 2번
         yield return new WaitUntil(() => Input.GetMouseButtonDown(0));  // 마우스 좌클릭 기다림
 
         // 선택지 표시
@@ -53,13 +53,13 @@ public class ExampleFlow : MonoBehaviour
     private IEnumerator NextDialogueAfterEscape()
     {
         // 도망쳤다고 대사 출력
-        vnManager.StartDialogue("주인공", "도망치자!", 3, false);  // 배경 3번, 걷기 효과 없음
+        vnManager.StartDialogue("주인공", "도망치자!", 3);  // 배경 3번
         yield return new WaitUntil(() => Input.GetMouseButtonDown(0));  // 마우스 좌클릭 기다림
 
         // 조력자 이동 및 대사
         vnManager.Move("조력자", new Vector3(0, 0, 0), 1.5f); // 중앙으로 이동
         yield return new WaitForSeconds(1.5f);
-        vnManager.StartDialogue("조력자", "잘 생각했어, 우리가 이길 수 있는 상황이 아니야.", 4, false);  // 배경 4번, 걷기 효과 없음
+        vnManager.StartDialogue("조력자", "잘 생각했어, 우리가 이길 수 있는 상황이 아니야.", 4);  // 배경 4번
         yield return new WaitUntil(() => Input.GetMouseButtonDown(0));  // 마우스 좌클릭 기다림
 
         // 캐릭터 퇴장
@@ -68,6 +68,6 @@ public class ExampleFlow : MonoBehaviour
 
         // 게임 흐름 계속
         // 다음 대사나 장면으로 넘어가도록 구현할 수 있습니다.
-        // 예: vnManager.StartDialogue("주인공", "이제 어떻게 해야 하지?", 5, false);
+        // 예: vnManager.StartDialogue("주인공", "이제 어떻게 해야 하지?", 5);
     }
 }

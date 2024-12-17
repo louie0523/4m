@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
+
 public class CoreVisualNovelManager : MonoBehaviour
 {
     [Header("UI Components")]
@@ -24,8 +25,6 @@ public class CoreVisualNovelManager : MonoBehaviour
 
     [Header("Background Settings")]
     public float fadeDuration = 1f;
-    public float walkSpeed = 0.1f;
-    public Vector2 walkScale = new Vector2(1.2f, 1.2f);
     public Sprite[] backgrounds;
 
     private Coroutine typingCoroutine;
@@ -62,7 +61,7 @@ public class CoreVisualNovelManager : MonoBehaviour
         }
     }
 
-    public void StartDialogue(string speaker, string dialogue, int backgroundIndex, bool useWalkEffect = false)
+    public void StartDialogue(string speaker, string dialogue, int backgroundIndex)
     {
         if (typingCoroutine != null) StopCoroutine(typingCoroutine);
 
@@ -72,7 +71,7 @@ public class CoreVisualNovelManager : MonoBehaviour
 
         if (backgroundIndex >= 0 && backgroundIndex < backgrounds.Length)
         {
-            StartCoroutine(useWalkEffect ? WalkEffectTransition(backgrounds[backgroundIndex]) : FadeEffectTransition(backgrounds[backgroundIndex]));
+            BackGroundSet(backgrounds[backgroundIndex]);  // 배경 설정 메서드 호출
         }
 
         typingCoroutine = StartCoroutine(TypeDialogue(dialogue));
@@ -99,30 +98,30 @@ public class CoreVisualNovelManager : MonoBehaviour
 
     private void ShowNextDialogue()
     {
-        // 여기서 대사 후 진행될 다음 행동을 추가
-        // 예를 들어, 대사 끝나고 새로운 대사를 보여준다거나, 선택지를 보여준다거나
-        // 예: StartDialogue("주인공", "이제 어떻게 해야 하지?", 5, false);
+        // 여기에 대사 후 다음 행동을 추가할 수 있습니다.
+        // 예: StartDialogue("주인공", "이제 어떻게 해야 하지?", 5);
+    }
 
-        // 선택지가 있으면 그때 그때 처리해주고, 대사만 있으면 자동으로 이어서 진행할 수도 있습니다.
+    private void BackGroundSet(Sprite newBackground)
+    {
+        StartCoroutine(FadeEffectTransition(newBackground));  // FadeEffectTransition만 사용
     }
 
     private IEnumerator FadeEffectTransition(Sprite newBackground)
     {
-        yield return Fade(1);
-        // backgroundImageObject가 GameObject이므로 Image 컴포넌트 가져오기
-        Image bgImage = backgroundImageObject.GetComponent<Image>();
-        bgImage.sprite = newBackground;  // 이미지 변경
-        yield return Fade(0);
-    }
+        yield return Fade(1);  // 화면 어둡게
 
-    private IEnumerator WalkEffectTransition(Sprite newBackground)
-    {
-        Vector3 originalScale = backgroundImageObject.GetComponent<RectTransform>().localScale;
+        SpriteRenderer bgRenderer = backgroundImageObject.GetComponent<SpriteRenderer>();
+        if (bgRenderer != null)
+        {
+            bgRenderer.sprite = newBackground;  // 배경 스프라이트 교체
+        }
+        else
+        {
+            Debug.LogError("SpriteRenderer가 backgroundImageObject에 없습니다!");
+        }
 
-        yield return LerpScale(originalScale, walkScale);
-        Image bgImage = backgroundImageObject.GetComponent<Image>();
-        bgImage.sprite = newBackground;
-        yield return LerpScale(walkScale, originalScale);
+        yield return Fade(0);  // 화면 밝게
     }
 
     private IEnumerator Fade(float targetAlpha)
@@ -135,15 +134,6 @@ public class CoreVisualNovelManager : MonoBehaviour
             yield return null;
         }
         fadeOverlay.color = new Color(0, 0, 0, targetAlpha);
-    }
-
-    private IEnumerator LerpScale(Vector3 from, Vector3 to)
-    {
-        for (float t = 0; t < 1; t += Time.deltaTime * walkSpeed)
-        {
-            backgroundImageObject.GetComponent<RectTransform>().localScale = Vector3.Lerp(from, to, t);
-            yield return null;
-        }
     }
 
     private Color GetSpeakerColor(string speaker)
@@ -185,16 +175,6 @@ public class CoreVisualNovelManager : MonoBehaviour
         SceneManager.LoadScene("BattleScene");
     }
 
-    public void Show(string characterName, Vector3 position)
-    {
-        if (characterMap.TryGetValue(characterName, out CharacterUI character))
-        {
-            character.SetActive(true);
-            // UI 이미지 위치 변경: RectTransform을 사용하여 위치 설정
-            character.characterImage.rectTransform.anchoredPosition = position;
-        }
-    }
-
     public void Hide(string characterName)
     {
         if (characterMap.TryGetValue(characterName, out CharacterUI character))
@@ -203,31 +183,51 @@ public class CoreVisualNovelManager : MonoBehaviour
         }
     }
 
+    public void Show(string characterName, Vector3 position)
+    {
+        if (characterMap.TryGetValue(characterName, out CharacterUI character))
+        {
+            character.SetActive(true);
+            // UI 이미지 위치 변경: RectTransform을 사용하여 위치 설정
+            StartCoroutine(MoveCharacter(character, position, 1f)); // 1초 동안 이동
+        }
+        else
+        {
+            Debug.LogError($"Character {characterName} not found in characterMap.");
+        }
+    }
+
     public void Move(string characterName, Vector3 targetPosition, float duration)
     {
         if (characterMap.TryGetValue(characterName, out CharacterUI character))
         {
+            Debug.Log($"Moving {characterName} to {targetPosition} over {duration} seconds.");
             StartCoroutine(MoveCharacter(character, targetPosition, duration));
+        }
+        else
+        {
+            Debug.LogError($"Character {characterName} not found in characterMap.");
         }
     }
 
     private IEnumerator MoveCharacter(CharacterUI character, Vector3 targetPosition, float duration)
     {
-        // 캐릭터의 RectTransform을 사용하여 위치를 부드럽게 이동
         RectTransform rectTransform = character.characterImage.rectTransform;
         Vector3 startPosition = rectTransform.anchoredPosition;
 
-        for (float t = 0; t < duration; t += Time.deltaTime)
+        float elapsedTime = 0f; // 경과 시간 변수 추가
+
+        while (elapsedTime < duration)
         {
-            rectTransform.anchoredPosition = Vector3.Lerp(startPosition, targetPosition, t / duration);
+            rectTransform.anchoredPosition = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime; // 경과 시간 업데이트
             yield return null;
         }
 
-        // 최종 목표 위치로 설정
-        rectTransform.anchoredPosition = targetPosition;
+        rectTransform.anchoredPosition = targetPosition; // 최종 목표 위치 설정
     }
-}
 
+}
 
 [System.Serializable]
 public class CharacterUI
@@ -238,14 +238,11 @@ public class CharacterUI
 
     public void SetActive(bool isActive)
     {
-        // Active 상태에서의 색상 (225, 225, 225, 255)
         Color activeColor = new Color(225f / 255f, 225f / 255f, 225f / 255f, 1f);
-        // 비활성 상태에서의 색상 (127, 127, 127, 225)
         Color inactiveColor = new Color(127f / 255f, 127f / 255f, 127f / 255f, 0.88f);
 
-        // 캐릭터 이미지의 색상을 activeColor 또는 inactiveColor로 설정
         characterImage.color = isActive ? activeColor : inactiveColor;
-        characterImage.gameObject.SetActive(isActive); // 실제 이미지 게임 오브젝트 활성화
+        characterImage.gameObject.SetActive(isActive); // 이미지 오브젝트 활성화
         if (isActive)
         {
             characterImage.rectTransform.anchoredPosition = position; // 활성화된 경우 위치 설정

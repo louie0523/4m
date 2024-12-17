@@ -53,7 +53,7 @@ public class ExampleFlow : MonoBehaviour
     private IEnumerator NextDialogueAfterEscape()
     {
         // 도망쳤다고 대사 출력
-        vnManager.StartDialogue("주인공", "도망치자!", 3);  // 배경 3번
+        vnManager.StartDialogue("빌헬름 경", "도망치자!", 3);  // 배경 3번
         yield return new WaitUntil(() => Input.GetMouseButtonDown(0));  // 마우스 좌클릭 기다림
 
         // 조력자 이동 및 대사

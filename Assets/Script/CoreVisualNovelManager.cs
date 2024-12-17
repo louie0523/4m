@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-
 public class CoreVisualNovelManager : MonoBehaviour
 {
     [Header("UI Components")]
@@ -145,7 +144,8 @@ public class CoreVisualNovelManager : MonoBehaviour
     {
         foreach (var character in characterMap)
         {
-            character.Value.SetActive(character.Key == activeCharacter);
+            bool isActive = character.Key == activeCharacter; // 현재 대사를 진행하는 캐릭터만 활성화
+            character.Value.SetActive(isActive);  // 대사 중인 캐릭터는 밝은 색상, 아닌 캐릭터는 어두운 색상
         }
     }
 
@@ -179,7 +179,15 @@ public class CoreVisualNovelManager : MonoBehaviour
     {
         if (characterMap.TryGetValue(characterName, out CharacterUI character))
         {
-            character.SetActive(false);  // 캐릭터를 비활성화
+            // 캐릭터가 이미 비활성화 상태인 경우 아무 작업도 하지 않음
+            if (character.characterImage.gameObject.activeSelf)
+            {
+                character.SetActive(false);  // 캐릭터를 비활성화
+            }
+        }
+        else
+        {
+            Debug.LogError($"Character {characterName} not found in characterMap.");
         }
     }
 
@@ -187,9 +195,11 @@ public class CoreVisualNovelManager : MonoBehaviour
     {
         if (characterMap.TryGetValue(characterName, out CharacterUI character))
         {
-            character.SetActive(true);
-            // UI 이미지 위치 변경: RectTransform을 사용하여 위치 설정
-            StartCoroutine(MoveCharacter(character, position, 1f)); // 1초 동안 이동
+            // 캐릭터를 보여주기 전에 반드시 비활성화 처리
+            character.SetActive(false);  // 먼저 비활성화 처리
+
+            character.SetActive(true);   // 캐릭터 활성화
+            StartCoroutine(MoveCharacter(character, position, 0.1f));  // 위치 이동
         }
         else
         {
@@ -226,7 +236,6 @@ public class CoreVisualNovelManager : MonoBehaviour
 
         rectTransform.anchoredPosition = targetPosition; // 최종 목표 위치 설정
     }
-
 }
 
 [System.Serializable]
@@ -238,11 +247,13 @@ public class CharacterUI
 
     public void SetActive(bool isActive)
     {
-        Color activeColor = new Color(225f / 255f, 225f / 255f, 225f / 255f, 1f);
-        Color inactiveColor = new Color(127f / 255f, 127f / 255f, 127f / 255f, 0.88f);
+        Color activeColor = new Color(225f / 255f, 225f / 255f, 225f / 255f, 1f);  // 밝은 색상 (활성화 상태)
+        Color inactiveColor = new Color(127f / 255f, 127f / 255f, 127f / 255f, 0.5f);  // 어두운 색상 (비활성화 상태)
 
         characterImage.color = isActive ? activeColor : inactiveColor;
-        characterImage.gameObject.SetActive(isActive); // 이미지 오브젝트 활성화
+        //characterImage.gameObject.SetActive(isActive);  // 활성화/비활성화 처리
+
+        // 캐릭터가 활성화된 상태일 때만 위치 설정
         if (isActive)
         {
             characterImage.rectTransform.anchoredPosition = position; // 활성화된 경우 위치 설정

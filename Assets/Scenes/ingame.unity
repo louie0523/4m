@@ -548,7 +548,7 @@ GameObject:
   - component: {fileID: 309464700}
   - component: {fileID: 309464699}
   m_Layer: 5
-  m_Name: Image
+  m_Name: "\uC120\uD0DD\uC9C0"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2040,9 +2040,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uADFC\uCC98\uC5D0\uC11C \uB204\uAD70\uAC00\uC758 \uAE30\uCC99\uC774 \uB290\uAEF4\uC9C4\uB2E4.
-    \uD655\uC778\uD560\uAE4C? \uC544\uB2C8\uBA74 \uC870\uC6A9\uD788 \uC9C0\uB098\uAC08\uAE4C,
-    \uC120\uD0DD\uC744 \uD574\uC57C\uD560 \uAC83 \uAC19\uB2E4."
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: af818ee248a3dba4d8edd910f79833f6, type: 2}
   m_sharedMaterial: {fileID: -4187987653353196804, guid: af818ee248a3dba4d8edd910f79833f6, type: 2}
@@ -2176,7 +2174,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uBE4C\uD5EC\uB984 \uACBD"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: af818ee248a3dba4d8edd910f79833f6, type: 2}
   m_sharedMaterial: {fileID: -4187987653353196804, guid: af818ee248a3dba4d8edd910f79833f6, type: 2}
@@ -2635,6 +2633,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueText: {fileID: 1574469475}
   speakerNameText: {fileID: 1576790494}
+  speakerNameFrame: {fileID: 558852796}
+  dialogueFrame: {fileID: 838018690}
   backgroundImageObject: {fileID: 225615231}
   fadeOverlay: {fileID: 603558406}
   choicePanel: {fileID: 309464697}
@@ -2652,9 +2652,7 @@ MonoBehaviour:
     position: {x: 0, y: 0}
   dimmedAlpha: 0.5
   typingSpeed: 0.05
-  fadeDuration: 1
-  walkSpeed: 0.1
-  walkScale: {x: 1.2, y: 1.2}
+  fadeDuration: 0.65
   backgrounds:
   - {fileID: 21300000, guid: be378d7eee19dd94c848839cd7d87cdf, type: 3}
   - {fileID: 21300000, guid: 239f90c3cb454c04da4359465c89f0cd, type: 3}
@@ -2663,6 +2661,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b2065c8f50b7b0840b78e52d78baa4d7, type: 3}
   - {fileID: 21300000, guid: 7848e77c40b9a844d986ef3a35b19d65, type: 3}
   - {fileID: 21300000, guid: edb428f54f842eb4fa05c056f622c35c, type: 3}
+  overlayObject: {fileID: 603558404}
 --- !u!4 &2062503495
 Transform:
   m_ObjectHideFlags: 0

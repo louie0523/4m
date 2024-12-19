@@ -10,8 +10,10 @@ public class CoreVisualNovelManager : MonoBehaviour
     [Header("UI Components")]
     public TextMeshProUGUI dialogueText;
     public TextMeshProUGUI speakerNameText;
-    public GameObject backgroundImageObject;  // Background image object (GameObject)
-    public Image fadeOverlay;
+    public GameObject speakerNameFrame;
+    public GameObject dialogueFrame;
+    public GameObject backgroundImageObject;
+    public Image fadeOverlay;  // 기존의 페이드 오버레이
     public GameObject choicePanel;
     public Button[] choiceButtons;
 
@@ -26,12 +28,15 @@ public class CoreVisualNovelManager : MonoBehaviour
     public float fadeDuration = 1f;
     public Sprite[] backgrounds;
 
+    public GameObject overlayObject;  // 오버레이 오브젝트
+
     private Coroutine typingCoroutine;
     private bool skipTyping = false;
     private bool canProceed = false;  // 대사 진행 여부 체크
 
     private Dictionary<string, Color> speakerColors;
     private Dictionary<string, CharacterUI> characterMap;
+
 
     void Awake()
     {
@@ -50,7 +55,7 @@ public class CoreVisualNovelManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && canProceed)  // 좌클릭을 감지
+        if (Input.GetMouseButtonDown(0) && canProceed)
         {
             canProceed = false;  // 클릭 후 대사 진행을 잠시 멈춤
             StopAllCoroutines();  // 기존 코루틴을 중단하고 대사를 마무리
@@ -60,17 +65,24 @@ public class CoreVisualNovelManager : MonoBehaviour
         }
     }
 
-    public void StartDialogue(string speaker, string dialogue, int backgroundIndex)
+    public void StartDialogue(string speaker, string dialogue)
     {
+        // 대사 시작 전 대사창 비활성화
+        dialogueFrame.SetActive(false);
+        speakerNameFrame.SetActive(false);
+
         if (typingCoroutine != null) StopCoroutine(typingCoroutine);
 
-        speakerNameText.text = speaker;
-        speakerNameText.color = GetSpeakerColor(speaker);
-        UpdateCharacterStates(speaker);
-
-        if (backgroundIndex >= 0 && backgroundIndex < backgrounds.Length)
+        // 발화자 이름이 비어 있는 경우
+        if (string.IsNullOrEmpty(speaker))
         {
-            BackGroundSet(backgrounds[backgroundIndex]);  // 배경 설정 메서드 호출
+            speakerNameFrame.SetActive(false);
+        }
+        else
+        {
+            speakerNameText.text = speaker;
+            speakerNameText.color = GetSpeakerColor(speaker);
+            UpdateCharacterStates(speaker);
         }
 
         typingCoroutine = StartCoroutine(TypeDialogue(dialogue));
@@ -78,6 +90,16 @@ public class CoreVisualNovelManager : MonoBehaviour
 
     private IEnumerator TypeDialogue(string dialogue)
     {
+        // 대사창을 활성화
+        dialogueFrame.SetActive(true);
+        if (!string.IsNullOrEmpty(speakerNameText.text))
+        {
+            speakerNameFrame.SetActive(true);
+        } else
+        {
+            speakerNameFrame.SetActive(false);
+        }
+
         dialogueText.text = "";
 
         foreach (char letter in dialogue)
@@ -95,43 +117,63 @@ public class CoreVisualNovelManager : MonoBehaviour
         canProceed = true;  // 대사가 끝나면 클릭을 통해 진행할 수 있게 설정
     }
 
+
     private void ShowNextDialogue()
     {
-        // 여기에 대사 후 다음 행동을 추가할 수 있습니다.
-        // 예: StartDialogue("주인공", "이제 어떻게 해야 하지?", 5);
+        // 삭제
     }
 
-    private void BackGroundSet(Sprite newBackground)
+    public void SetBackground(int backgroundIndex)
     {
-        StartCoroutine(FadeEffectTransition(newBackground));  // FadeEffectTransition만 사용
+        if (backgroundIndex >= 0 && backgroundIndex < backgrounds.Length)
+        {
+            StartCoroutine(FadeBackground(backgrounds[backgroundIndex]));
+        }
+        else
+        {
+            Debug.LogError("Invalid background index: " + backgroundIndex);
+        }
     }
 
-    private IEnumerator FadeEffectTransition(Sprite newBackground)
+    private IEnumerator FadeBackground(Sprite newBackground)
     {
-        yield return Fade(1);  // 화면 어둡게
 
+        overlayObject.SetActive(true);
+        yield return StartCoroutine(Fade(1, fadeOverlay, 1f));  // 기존 배경을 페이드 아웃
+
+        // 2. 기존 배경을 변경
         SpriteRenderer bgRenderer = backgroundImageObject.GetComponent<SpriteRenderer>();
         if (bgRenderer != null)
         {
-            bgRenderer.sprite = newBackground;  // 배경 스프라이트 교체
+            bgRenderer.sprite = newBackground;  // 새로운 배경으로 변경
         }
         else
         {
             Debug.LogError("SpriteRenderer가 backgroundImageObject에 없습니다!");
         }
 
-        yield return Fade(0);  // 화면 밝게
+        // 3. 새로운 배경을 페이드 인
+        yield return StartCoroutine(Fade(0, fadeOverlay, 0f));  // 새로운 배경을 페이드 인
+        overlayObject.SetActive(false);
     }
 
-    private IEnumerator Fade(float targetAlpha)
+
+    private IEnumerator Fade(float targetAlpha, Image fadeOverlay, float delay)
     {
+        // Fade out/in 동안 배경과 UI 동시에 제어
         float startAlpha = fadeOverlay.color.a;
         for (float t = 0; t < fadeDuration; t += Time.deltaTime)
         {
+            // 알파 값 보간 (배경과 UI 요소들)
             float alpha = Mathf.Lerp(startAlpha, targetAlpha, Mathf.Clamp01(t / fadeDuration));
+
+            // 배경 페이드 처리
             fadeOverlay.color = new Color(0, 0, 0, alpha);
+
             yield return null;
         }
+
+        // 끝날 때는 정확한 알파 값 설정
         fadeOverlay.color = new Color(0, 0, 0, targetAlpha);
     }
 
@@ -145,7 +187,11 @@ public class CoreVisualNovelManager : MonoBehaviour
         foreach (var character in characterMap)
         {
             bool isActive = character.Key == activeCharacter; // 현재 대사를 진행하는 캐릭터만 활성화
-            character.Value.SetActive(isActive);  // 대사 중인 캐릭터는 밝은 색상, 아닌 캐릭터는 어두운 색상
+            Color activeColor = new Color(225f / 255f, 225f / 255f, 225f / 255f, 1f);  // 밝은 색상
+            Color inactiveColor = new Color(127f / 255f, 127f / 255f, 127f / 255f, 1f);  // 어두운 색상
+
+            // 캐릭터 색상 변경
+            character.Value.characterImage.color = isActive ? activeColor : inactiveColor;
         }
     }
 
@@ -157,11 +203,16 @@ public class CoreVisualNovelManager : MonoBehaviour
         {
             if (i < choices.Length)
             {
+                int choiceIndex = i;  // 로컬 변수에 저장
                 var button = choiceButtons[i];
                 button.gameObject.SetActive(true);
                 button.GetComponentInChildren<TextMeshProUGUI>().text = choices[i];
                 button.onClick.RemoveAllListeners();
-                button.onClick.AddListener(() => { choicePanel.SetActive(false); onChoiceSelected?.Invoke(i); });
+                button.onClick.AddListener(() => {
+                    Debug.Log($"버튼 {choiceIndex} 클릭됨");  // 디버깅 로그 추가
+                    choicePanel.SetActive(false);
+                    onChoiceSelected?.Invoke(choiceIndex);
+                });
             }
             else
             {
@@ -169,6 +220,7 @@ public class CoreVisualNovelManager : MonoBehaviour
             }
         }
     }
+
 
     public void GoToBattleScene()
     {
@@ -248,7 +300,7 @@ public class CharacterUI
         Color inactiveColor = new Color(127f / 255f, 127f / 255f, 127f / 255f, 0.5f);  // 어두운 색상 (비활성화 상태)
 
         characterImage.color = isActive ? activeColor : inactiveColor;
-        characterImage.gameObject.SetActive(isActive);  // 활성화/비활성화 처리
+        characterImage.gameObject.SetActive(isActive);  // 활성화/비활성화 처리**/
 
         // 캐릭터가 활성화된 상태일 때만 위치 설정
         if (isActive)

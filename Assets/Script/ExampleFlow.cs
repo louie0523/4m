@@ -71,7 +71,7 @@ public class ExampleFlow : MonoBehaviour
         yield return WaitForClick();
 
         vnManager.Show("빌헬름 경", new Vector3(-400, 0, 0));
-        vnManager.StartDialogue("빌헬름 경", "이곳이 1층인가, 겉으로 보아선 밖과 구분이 되지 않는데 신비한 공간이로군.);
+        vnManager.StartDialogue("빌헬름 경", "이곳이 1층인가, 겉으로 보아선 밖과 구분이 되지 않는데 신비한 공간이로군.");
         yield return WaitForClick();
 
         vnManager.Move("빌헬름 경", new Vector3(0, 0, 0), 0.1f);

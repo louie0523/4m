@@ -2650,7 +2650,7 @@ MonoBehaviour:
   - characterName: "\uC870\uB825\uC790"
     characterImage: {fileID: 1737543523}
     position: {x: 0, y: 0}
-  dimmedAlpha: 0.5
+  dimmedAlpha: 0.69
   typingSpeed: 0.05
   fadeDuration: 0.65
   backgrounds:

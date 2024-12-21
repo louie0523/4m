@@ -73,15 +73,17 @@ public class CoreVisualNovelManager : MonoBehaviour
 
         if (typingCoroutine != null) StopCoroutine(typingCoroutine);
 
-        // 발화자 이름이 비어 있는 경우
-        if (string.IsNullOrEmpty(speaker))
+        if (string.IsNullOrEmpty(speaker) || speaker == "나레이션")
         {
             speakerNameFrame.SetActive(false);
+            speakerNameText.text = ""; // 발화자 이름 텍스트를 초기화
+            UpdateCharacterStates(""); // 캐릭터 상태도 초기화
         }
         else
         {
             speakerNameText.text = speaker;
             speakerNameText.color = GetSpeakerColor(speaker);
+            speakerNameFrame.SetActive(true); // 발화자 이름이 있는 경우만 활성화
             UpdateCharacterStates(speaker);
         }
 

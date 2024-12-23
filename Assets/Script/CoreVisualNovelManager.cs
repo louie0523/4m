@@ -32,7 +32,7 @@ public class CoreVisualNovelManager : MonoBehaviour
 
     private Coroutine typingCoroutine;
     private bool skipTyping = false;
-    private bool canProceed = false;  // 대사 진행 여부 체크
+    public bool canProceed = false;  // 대사 진행 여부 체크
 
     private Dictionary<string, Color> speakerColors;
     private Dictionary<string, CharacterUI> characterMap;
@@ -55,12 +55,19 @@ public class CoreVisualNovelManager : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+        {
+            typingSpeed = 0.01f;  // Ctrl 누르면 빠르게 타이핑
+        }
+        else
+        {
+            typingSpeed = 0.05f;  // 기본 타이핑 속도
+        }
+
         if (Input.GetMouseButtonDown(0) && canProceed)
         {
-            canProceed = false;  // 클릭 후 대사 진행을 잠시 멈춤
-            StopAllCoroutines();  // 기존 코루틴을 중단하고 대사를 마무리
-
-            // 다음 대사 또는 선택지를 보여주는 메서드 호출
+            canProceed = false;
+            StopAllCoroutines();
             ShowNextDialogue();
         }
     }
@@ -188,11 +195,11 @@ public class CoreVisualNovelManager : MonoBehaviour
     {
         foreach (var character in characterMap)
         {
-            bool isActive = character.Key == activeCharacter; // 현재 대사를 진행하는 캐릭터만 활성화
+            bool isActive = character.Key == activeCharacter;
             Color activeColor = new Color(225f / 255f, 225f / 255f, 225f / 255f, 1f);  // 밝은 색상
             Color inactiveColor = new Color(127f / 255f, 127f / 255f, 127f / 255f, 1f);  // 어두운 색상
 
-            // 캐릭터 색상 변경
+            //캐릭터 색상 변경
             character.Value.characterImage.color = isActive ? activeColor : inactiveColor;
         }
     }
@@ -205,13 +212,13 @@ public class CoreVisualNovelManager : MonoBehaviour
         {
             if (i < choices.Length)
             {
-                int choiceIndex = i;  // 로컬 변수에 저장
+                int choiceIndex = i;  //로컬 변수에 저장함
                 var button = choiceButtons[i];
                 button.gameObject.SetActive(true);
                 button.GetComponentInChildren<TextMeshProUGUI>().text = choices[i];
                 button.onClick.RemoveAllListeners();
                 button.onClick.AddListener(() => {
-                    Debug.Log($"버튼 {choiceIndex} 클릭됨");  // 디버깅 로그 추가
+                    Debug.Log($"버튼 {choiceIndex} 클릭됨");
                     choicePanel.SetActive(false);
                     onChoiceSelected?.Invoke(choiceIndex);
                 });
@@ -236,7 +243,7 @@ public class CoreVisualNovelManager : MonoBehaviour
             // 캐릭터가 이미 비활성화 상태인 경우 아무 작업도 하지 않음
             if (character.characterImage.gameObject.activeSelf)
             {
-                character.SetActive(false);  // 캐릭터를 비활성화
+                character.SetActive(false);
             }
         }
         else
@@ -249,7 +256,7 @@ public class CoreVisualNovelManager : MonoBehaviour
     {
         if (characterMap.TryGetValue(characterName, out CharacterUI character))
         {
-            character.SetActive(true);   // 캐릭터 활성화
+            character.SetActive(true);
             StartCoroutine(MoveCharacter(character, position, 0.1f));  // 위치 이동
         }
         else
@@ -294,7 +301,7 @@ public class CharacterUI
 {
     public string characterName;
     public Image characterImage;
-    public Vector2 position; // Vector2로 변경
+    public Vector2 position;
 
     public void SetActive(bool isActive)
     {

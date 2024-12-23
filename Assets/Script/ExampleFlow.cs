@@ -52,8 +52,9 @@ public class ExampleFlow : MonoBehaviour
     private IEnumerator WaitForClick()
     {
         yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
-        yield return new WaitForSeconds(0.1f); // 짧은 시간 동안 추가 입력 방지
+        yield return new WaitForSeconds(0.75f); // 짧은 시간 동안 추가 입력 방지
     }
+
 
     private IEnumerator GameFlow()
     {
@@ -70,14 +71,21 @@ public class ExampleFlow : MonoBehaviour
         vnManager.StartDialogue("???", "정말로 탑에 들어와 버렸군...");
         yield return WaitForClick();
 
-        vnManager.Show("빌헬름 경", new Vector3(-400, 0, 0));
-        vnManager.StartDialogue("빌헬름 경", "이곳이 1층인가, 겉으로 보아선 밖과 구분이 되지 않는데 신비한 공간이로군.");
+        vnManager.Show("빌헬름 경", new Vector3(0, 0, 0));
+        vnManager.StartDialogue("빌헬름 경", "이곳이 1층인가.....");
         yield return WaitForClick();
 
-        vnManager.Move("빌헬름 경", new Vector3(0, 0, 0), 0.1f);
-        yield return new WaitForSeconds(0.1f);  // 이동 시간 대기
+        vnManager.Move("빌헬름 경", new Vector3(400, 0, 0), 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        vnManager.Move("빌헬름 경", new Vector3(-400, 0, 0), 0.8f);
+        yield return new WaitForSeconds(0.8f);
+        vnManager.Move("빌헬름 경", new Vector3(0, 0, 0), 0.5f);
+        yield return new WaitForSeconds(0.5f);
 
-        vnManager.StartDialogue("빌헬름 경", "일단 주위를 좀 둘러보는 것이 좋겠군, 다른 누군가가 있을 수 도 있으니까");
+        vnManager.StartDialogue("", "주위를 살펴보았지만 나무며, 식물이며 바깥과 다를게 없어 보인다.");
+        yield return WaitForClick();
+
+        vnManager.StartDialogue("빌헬름 경", "일단..주위를 둘러 보는게 났겠군");
         yield return WaitForClick();
 
         vnManager.SetBackground(0);
@@ -92,7 +100,28 @@ public class ExampleFlow : MonoBehaviour
         vnManager.StartDialogue("빌헬름 경", "....");
         yield return WaitForClick();
 
-        vnManager.StartDialogue("빌헬름 경", "나무가 너무 우거져있으니, 직진으로 이동하되 가는 길마다 돌을 둬서 길을 잃을 가능성을 배제해야겠군.");
+        vnManager.StartDialogue("빌헬름 경", "목표를 바꿔야겠군, 탁 트인 곳을 찾아보는게 났겠어.");
+        yield return WaitForClick();
+
+        vnManager.StartDialogue("", "오지에서도 굴러본 적이 꽤 있기에 최선의 목표를 다시 빠르게 찾아내었다.");
+        yield return WaitForClick();
+
+        vnManager.SetBackground(0);
+        yield return WaitForClick();
+
+        vnManager.SetBackground(0);
+        yield return WaitForClick();
+
+        vnManager.SetBackground(0);
+        yield return WaitForClick();
+
+        vnManager.SetBackground(0);
+        yield return WaitForClick();
+
+        vnManager.StartDialogue("빌헬름 경", ".......");
+        yield return WaitForClick();
+
+        vnManager.StartDialogue("빌헬름 경", "꽤 걸은 것 같다만, 아직도 나무가 너무 우거져있군...숲이 이정도로 넓다니...");
         yield return WaitForClick();
 
         vnManager.StartDialogue("", "전쟁통에 산에서 고립된 경험이 어느정도 있기에 최대한 빠르고 신속하게 판단하였다.");

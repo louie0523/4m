@@ -184,7 +184,7 @@ public class ExampleFlow : MonoBehaviour
         vnManager.SetBackground(4);
         yield return WaitForClick();
 
-        vnManager.StartDialogue("조력자", "잘 생각했어, 우리가 이길 수 있는 상황이 아니야.");
+        vnManager.StartDialogue("조력자", "잘 생각했어, 우리가 이길 수 있는 상황이 아니야..");
         yield return WaitForClick();
 
         // 캐릭터 퇴장

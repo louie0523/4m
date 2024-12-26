@@ -398,6 +398,54 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &187600003
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 187600005}
+  - component: {fileID: 187600004}
+  m_Layer: 0
+  m_Name: CharacterManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &187600004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 187600003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 351badff10a37fe4cbaadd8abc27d2a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characters:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!4 &187600005
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 187600003}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 236.63077, y: 1521.6255, z: -46.35696}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &230608193
 GameObject:
   m_ObjectHideFlags: 0
@@ -1241,7 +1289,6 @@ GameObject:
   m_Component:
   - component: {fileID: 683244674}
   - component: {fileID: 683244673}
-  - component: {fileID: 683244675}
   m_Layer: 0
   m_Name: Hero_slot
   m_TagString: Untagged
@@ -1261,6 +1308,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bac1e2689c7ca148ba88455766beb4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneToLoad: ingame
+  start: {fileID: 1885544795}
   HerosSlot:
   - {fileID: 1621855899}
   - {fileID: 1247936153}
@@ -1292,20 +1341,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &683244675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 683244672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d3300ad0efe6c44a85c193e9a1b1174, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneToLoad: ingame
-  start: {fileID: 1885544795}
 --- !u!1 &683809117
 GameObject:
   m_ObjectHideFlags: 0
@@ -5261,3 +5296,4 @@ SceneRoots:
   - {fileID: 1196475170}
   - {fileID: 658397007}
   - {fileID: 683244674}
+  - {fileID: 187600005}

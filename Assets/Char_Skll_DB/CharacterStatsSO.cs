@@ -18,5 +18,19 @@ public class CharacterStatsSO : ScriptableObject
     public int mana;             // 현재 마나
     public int manaRegen;        // 마나 재생량
     public int skillSlots;       // 스킬 슬롯 (캐릭터가 장착할 수 있는 스킬 개수)
-}
 
+    // 성장 스탯
+    public int healthUp;           // 체력
+    public int attackUp;           // 공격력
+    public int abilityPowerUp;     // 주문력
+    public int defenseUp;          // 방어력
+    public int resistanceUp;       // 저항력
+    public int perceptionUp;       // 감각 (회피율)
+    public int manaUp;             // 현재 마나
+    public int manaRegenUp;        // 마나 재생량
+
+    // 레벨과 경험치
+    public int level = 1;          // 기본 레벨
+    public float experience = 0f;  // 현재 경험치
+    public float maxExperience = 100f; // 레벨업에 필요한 최대 경험치
+}

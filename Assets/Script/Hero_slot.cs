@@ -2,30 +2,64 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;  // Slider 사용을 위한 네임스페이스 추가
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Hero_slot : MonoBehaviour
 {
+    public string sceneToLoad;
+    public Button start;
+
     public GameObject[] HerosSlot;
-    public CharacterStatsSO[] heroesStats; // CharacterStatsSO 배열 추가
+    public CharacterStatsSO[] heroesStats; // 캐릭터 데이터 배열
 
     public TMP_Text nameText;
     public TMP_Text explainText;
 
-    public Slider healthSlider;      // 체력 슬라이더
-    public Slider attackSlider;      // 공격력 슬라이더
-    public Slider abilityPowerSlider; // 주문력 슬라이더
-    public Slider defenseSlider;     // 방어력 슬라이더
-    public Slider resistanceSlider;  // 저항력 슬라이더
-    public Slider perceptionSlider;  // 감각 슬라이더
-    public Slider manaSlider;        // 마나 슬라이더
-    public Slider manaRegenSlider;   // 마나 재생력 슬라이더
+    public Slider healthSlider;
+    public Slider attackSlider;
+    public Slider abilityPowerSlider;
+    public Slider defenseSlider;
+    public Slider resistanceSlider;
+    public Slider perceptionSlider;
+    public Slider manaSlider;
+    public Slider manaRegenSlider;
 
     private int slot;
 
     void Start()
     {
+        start.onClick.AddListener(OnButtonClick);
         ShowSelectedSlot();
+    }
+
+    void OnButtonClick()
+    {
+        if (CharacterManager.Instance != null)
+        {
+            if (heroesStats[slot] != null)
+            {
+                Debug.Log("Setting Player Character");
+                CharacterManager.Instance.characters[0] = heroesStats[slot];
+                SceneManager.LoadScene(sceneToLoad);
+            }
+            else
+            {
+                Debug.LogError("Selected hero is null!");
+            }
+        }
+        else
+        {
+            Debug.LogError("CharacterManager.Instance is null!");
+        }
+    }
+
+    void OnDestroy()
+    {
+        if (start != null)
+        {
+            start.onClick.RemoveListener(OnButtonClick);
+        }
     }
 
     void Slot_reset()
